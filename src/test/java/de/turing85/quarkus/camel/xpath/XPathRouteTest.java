@@ -30,7 +30,7 @@ class XPathRouteTest {
         .then()
             .statusCode(Response.Status.OK.getStatusCode())
             .contentType(MediaType.APPLICATION_XML)
-            .body(is("<bar>1</bar><bar>2</bar><bar>3</bar>"));
+            .body(is("bar"));
     // @formatter:on
   }
 }

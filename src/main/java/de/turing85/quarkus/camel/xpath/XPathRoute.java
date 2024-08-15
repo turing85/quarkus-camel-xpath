@@ -10,8 +10,6 @@ import static org.apache.camel.builder.endpoint.StaticEndpointBuilders.platformH
 public class XPathRoute extends RouteBuilder {
   public static final String PATH = "/process";
 
-  private final XpathExtractor extractor = new XpathExtractor();
-
   @Override
   public void configure() {
     // @formatter:off
@@ -21,7 +19,7 @@ public class XPathRoute extends RouteBuilder {
             .consumes(MediaType.APPLICATION_XML)
             .produces(MediaType.APPLICATION_XML))
         .id("%s-%s".formatted(PATH, HttpMethod.POST))
-        .process(extractor);
+        .process(XPathExtractor.instance());
     // @formatter:on
   }
 }
