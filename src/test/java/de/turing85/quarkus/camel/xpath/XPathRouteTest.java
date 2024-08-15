@@ -7,7 +7,7 @@ import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 
 @QuarkusTest
 class XPathRouteTest {
@@ -30,7 +30,7 @@ class XPathRouteTest {
         .then()
             .statusCode(Response.Status.OK.getStatusCode())
             .contentType(MediaType.APPLICATION_XML)
-            .body(equalTo("<bar>1</bar><bar>2</bar><bar>3</bar>"));
+            .body(is("<bar>1</bar><bar>2</bar><bar>3</bar>"));
     // @formatter:on
   }
 }

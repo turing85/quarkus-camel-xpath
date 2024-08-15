@@ -174,6 +174,74 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${assembly-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>tar-gz-fast-jar</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <inlineDescriptors>
+                                <inlineDescriptor>
+                                    <id>tar-gz-fast-jar</id>
+                                    <includeBaseDirectory>false</includeBaseDirectory>
+                                    <formats>
+                                        <format>tar.gz</format>
+                                    </formats>
+                                    <fileSets>
+                                        <fileSet>
+                                            <outputDirectory>/</outputDirectory>
+                                            <directory>${project.build.directory}/quarkus-app</directory>
+                                            <useDefaultExcludes>false</useDefaultExcludes>
+                                        </fileSet>
+                                    </fileSets>
+                                </inlineDescriptor>
+                            </inlineDescriptors>
+                            <skipAssembly>${attach-fast-jar.skip}</skipAssembly>
+                            <tarLongFileMode>posix</tarLongFileMode>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>tar-gz-native</id>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <appendAssemblyId>true</appendAssemblyId>
+                            <finalName>elf</finalName>
+                            <inlineDescriptors>
+                                <inlineDescriptor>
+                                    <id>elf</id>
+                                    <includeBaseDirectory>false</includeBaseDirectory>
+                                    <formats>
+                                        <format>tar.gz</format>
+                                    </formats>
+                                    <fileSets>
+                                        <fileSet>
+                                            <outputDirectory>/</outputDirectory>
+                                            <directory>${project.build.directory}</directory>
+                                            <includes>
+                                                <inclue>${project.build.finalName}-runner</inclue>
+                                                <include>*.so</include>
+                                            </includes>
+                                            <useDefaultExcludes>false</useDefaultExcludes>
+                                        </fileSet>
+                                    </fileSets>
+                                </inlineDescriptor>
+                            </inlineDescriptors>
+                            <skipAssembly>${attach-elf.skip}</skipAssembly>
+                            <tarLongFileMode>posix</tarLongFileMode>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
                 <configuration>
@@ -199,7 +267,7 @@
                         <goals>
                             <goal>${dependency-check-maven.goal}</goal>
                         </goals>
-                        <phase>package</phase>
+                        <phase>verify</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -234,74 +302,6 @@
                         <goals>
                             <goal>jar-no-fork</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>${assembly-plugin.version}</version>
-                <executions>
-                    <execution>
-                        <id>tar-gz-fast-jar</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>verify</phase>
-                        <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                            <inlineDescriptors>
-                                <inlineDescriptor>
-                                    <id>tar-gz-fast-jar</id>
-                                    <includeBaseDirectory>false</includeBaseDirectory>
-                                    <formats>
-                                        <format>tar.gz</format>
-                                    </formats>
-                                    <fileSets>
-                                        <fileSet>
-                                            <outputDirectory>/</outputDirectory>
-                                            <directory>${project.build.directory}/quarkus-app</directory>
-                                            <useDefaultExcludes>false</useDefaultExcludes>
-                                        </fileSet>
-                                    </fileSets>
-                                </inlineDescriptor>
-                            </inlineDescriptors>
-                            <skipAssembly>${attach-fast-jar.skip}</skipAssembly>
-                            <tarLongFileMode>posix</tarLongFileMode>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>tar-gz-native</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>verify</phase>
-                        <configuration>
-                            <appendAssemblyId>true</appendAssemblyId>
-                            <finalName>elf</finalName>
-                            <inlineDescriptors>
-                                <inlineDescriptor>
-                                    <id>elf</id>
-                                    <includeBaseDirectory>false</includeBaseDirectory>
-                                    <formats>
-                                        <format>tar.gz</format>
-                                    </formats>
-                                    <fileSets>
-                                        <fileSet>
-                                            <outputDirectory>/</outputDirectory>
-                                            <directory>${project.build.directory}</directory>
-                                            <includes>
-                                                <inclue>${project.build.finalName}-runner</inclue>
-                                                <include>*.so</include>
-                                            </includes>
-                                            <useDefaultExcludes>false</useDefaultExcludes>
-                                        </fileSet>
-                                    </fileSets>
-                                </inlineDescriptor>
-                            </inlineDescriptors>
-                            <skipAssembly>${attach-elf.skip}</skipAssembly>
-                            <tarLongFileMode>posix</tarLongFileMode>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
