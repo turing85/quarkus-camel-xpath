@@ -7,4 +7,11 @@
         </notes>
         <cve>CVE-2020-13956</cve>
     </suppress>
+    <suppress>
+        <notes>
+            We are on Camel >= 4.7.0, so we are not affected.
+            The plugin thinks we are affected because we use org.apache.camel.quarkus:camel-quarkus-xpath 3.x.
+        </notes>
+        <cve>CVE-2023-34442</cve>
+    </suppress>
 </suppressions>
